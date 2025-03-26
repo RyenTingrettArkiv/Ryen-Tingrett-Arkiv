@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ryen tingretts arkiver</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #d0e6f7;
+    }
+    header {
+      background-color: #003366;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      padding: 2rem;
+    }
+    .card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: transform 0.2s;
+      text-decoration: none;
+      color: black;
+    }
+    .card:hover {
+      transform: scale(1.03);
+    }
+    .series-card {
+      background: linear-gradient(to right, #fff5f5, #ffe6f0);
+      border-left: 5px solid #ff3366;
+    }
+    .back-button {
+      margin: 1rem;
+      display: inline-block;
+      text-decoration: none;
+      color: #003366;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Ryen tingretts arkiver</h1>
+  </header>
+
+  <div id="forside" class="container">
+    <div class="card" onclick="visUnivers('ryensvenner')">Ryens venner</div>
+    <div class="card" onclick="visUnivers('aunivers')">A-univers</div>
+    <div class="card" onclick="visUnivers('fischer')">Fischers Heaven</div>
+  </div>
+
+  <div id="univers-visning" class="hidden">
+    <a class="back-button" href="#" onclick="tilbakeTilForside()">← Tilbake</a>
+    <div id="univers-navn" style="padding: 0 2rem;"><h2></h2></div>
+    <div class="container" id="historieliste"></div>
+  </div>
+
+  <script>
+    const universer = {
+      ryensvenner: {
+        navn: "Ryens venner",
+        historier: [
+          {
+            tittel: "Ungkarene fra Fischers Heaven: Don Patrick og Jonas Blues Dobbeldate-eventyr",
+            fil: "ryensvenner_1.html"
+          },
+          {
+            tittel: "Ungkarene fra Fischers Heaven: Don Patrick og Jonas Blues Dobbeldate-eventyr – Rivalenes Revansj",
+            fil: "ryensvenner_2.html"
+          },
+          {
+            tittel: "Når Fiender Blir Allierte: Slaget om Byens Rype",
+            fil: "ryensvenner_3.html"
+          }
+        ]
+      },
+      aunivers: {
+        navn: "A-univers",
+        historier: [
+          { tittel: "Historie A", fil: "#" },
+          { tittel: "Historie B", fil: "#" }
+        ]
+      },
+      fischer: {
+        navn: "Fischers Heaven",
+        historier: [
+          { tittel: "Fischer starter", fil: "#" },
+          { tittel: "Fischer faller", fil: "#" }
+        ]
+      }
+    };
+
+    function visUnivers(universId) {
+      const data = universer[universId];
+      document.getElementById("forside").classList.add("hidden");
+      document.getElementById("univers-visning").classList.remove("hidden");
+      document.getElementById("univers-navn").innerHTML = `<h2>${data.navn}</h2>`;
+
+      const liste = document.getElementById("historieliste");
+      liste.innerHTML = "";
+      data.historier.forEach((historie, index) => {
+        const a = document.createElement("a");
+        a.className = universId === 'ryensvenner' ? "card series-card" : "card";
+        a.href = historie.fil;
+        a.textContent = `Del ${index + 1}: ${historie.tittel}`;
+        liste.appendChild(a);
+      });
+    }
+
+    function tilbakeTilForside() {
+      document.getElementById("univers-visning").classList.add("hidden");
+      document.getElementById("forside").classList.remove("hidden");
+    }
+  </script>
+</body>
+</html>
